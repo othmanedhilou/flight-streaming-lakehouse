@@ -1,0 +1,42 @@
+icao,iata,name,city,country,lat,lon
+LFPG,CDG,Paris Charles de Gaulle,Paris,France,49.0097,2.5479
+LFPO,ORY,Paris Orly,Paris,France,48.7262,2.3652
+LFMN,NCE,Nice Cote d'Azur,Nice,France,43.6584,7.2159
+LFLL,LYS,Lyon Saint-Exupery,Lyon,France,45.7256,5.0811
+LFML,MRS,Marseille Provence,Marseille,France,43.4393,5.2214
+LFBO,TLS,Toulouse Blagnac,Toulouse,France,43.6291,1.3638
+EGLL,LHR,London Heathrow,London,United Kingdom,51.4700,-0.4543
+EGKK,LGW,London Gatwick,London,United Kingdom,51.1537,-0.1821
+EHAM,AMS,Amsterdam Schiphol,Amsterdam,Netherlands,52.3105,4.7683
+EBBR,BRU,Brussels,Brussels,Belgium,50.9010,4.4856
+EDDF,FRA,Frankfurt,Frankfurt,Germany,50.0379,8.5622
+EDDM,MUC,Munich,Munich,Germany,48.3538,11.7861
+LSZH,ZRH,Zurich,Zurich,Switzerland,47.4582,8.5555
+LSGG,GVA,Geneva,Geneva,Switzerland,46.2381,6.1090
+LEMD,MAD,Madrid Barajas,Madrid,Spain,40.4983,-3.5676
+LEBL,BCN,Barcelona El Prat,Barcelona,Spain,41.2974,2.0833
+LPPT,LIS,Lisbon Humberto Delgado,Lisbon,Portugal,38.7742,-9.1342
+LIRF,FCO,Rome Fiumicino,Rome,Italy,41.8003,12.2389
+LOWW,VIE,Vienna,Vienna,Austria,48.1103,16.5697
+EKCH,CPH,Copenhagen Kastrup,Copenhagen,Denmark,55.6180,12.6508
+EIDW,DUB,Dublin,Dublin,Ireland,53.4264,-6.2499
+EPWA,WAW,Warsaw Chopin,Warsaw,Poland,52.1657,20.9671
+LGAV,ATH,Athens,Athens,Greece,37.9364,23.9445
+LTFM,IST,Istanbul,Istanbul,Turkey,41.2753,28.7519
+GMMN,CMN,Casablanca Mohammed V,Casablanca,Morocco,33.3675,-7.5898
+GMME,RBA,Rabat-Sale,Rabat,Morocco,34.0515,-6.7515
+GMMX,RAK,Marrakech Menara,Marrakech,Morocco,31.6069,-8.0363
+GMTT,TNG,Tangier Ibn Battouta,Tangier,Morocco,35.7269,-5.9169
+GMAD,AGA,Agadir Al Massira,Agadir,Morocco,30.3250,-9.4131
+GMFF,FEZ,Fes Saiss,Fes,Morocco,33.9273,-4.9779
+DAAG,ALG,Algiers Houari Boumediene,Algiers,Algeria,36.6910,3.2154
+DTTA,TUN,Tunis Carthage,Tunis,Tunisia,36.8510,10.2272
+HECA,CAI,Cairo,Cairo,Egypt,30.1219,31.4056
+OMDB,DXB,Dubai,Dubai,United Arab Emirates,25.2532,55.3657
+OTHH,DOH,Doha Hamad,Doha,Qatar,25.2731,51.6081
+KJFK,JFK,New York JFK,New York,United States,40.6413,-73.7781
+KATL,ATL,Atlanta Hartsfield-Jackson,Atlanta,United States,33.6407,-84.4277
+KORD,ORD,Chicago O'Hare,Chicago,United States,41.9742,-87.9073
+KLAX,LAX,Los Angeles,Los Angeles,United States,33.9416,-118.4085
+WSSS,SIN,Singapore Changi,Singapore,Singapore,1.3644,103.9915
+RJTT,HND,Tokyo Haneda,Tokyo,Japan,35.5494,139.7798
