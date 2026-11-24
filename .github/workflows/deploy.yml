@@ -1,0 +1,63 @@
+name: deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        type: choice
+        options: [dev, prod]
+        default: dev
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  infra:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.target }}
+    env:
+      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_USE_OIDC: "true"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_wrapper: false
+      - name: terraform apply (registry and platform)
+        working-directory: infra/terraform
+        run: |
+          terraform init
+          terraform apply -auto-approve -var env=${{ inputs.target }}
+      - name: build producer image
+        run: |
+          ACR=$(terraform -chdir=infra/terraform output -raw acr_name)
+          az acr build -r "$ACR" -t flight-producer:${{ github.sha }} -t flight-producer:latest -f producer/Dockerfile .
+      - name: start producer
+        working-directory: infra/terraform
+        run: |
+          terraform apply -auto-approve -var env=${{ inputs.target }} \
+            -var deploy_producer=true -var producer_image_tag=${{ github.sha }}
+
+  databricks:
+    needs: infra
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.target }}
+    env:
+      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install build
+      - uses: databricks/setup-cli@main
+      - run: databricks bundle deploy -t ${{ inputs.target }}

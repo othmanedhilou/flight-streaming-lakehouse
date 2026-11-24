@@ -1,0 +1,36 @@
+// Source: Databricks SQL warehouse, DirectQuery on
+//   flights.gold.airport_traffic_5min
+//   flights.gold.country_traffic_5min
+// Page refresh set to 1 minute.
+
+Aircraft Now =
+VAR last_window = MAX ( airport_traffic_5min[window_start] )
+RETURN
+    CALCULATE ( SUM ( airport_traffic_5min[aircraft] ), airport_traffic_5min[window_start] = last_window )
+
+Arrivals Now =
+VAR last_window = MAX ( airport_traffic_5min[window_start] )
+RETURN
+    CALCULATE ( SUM ( airport_traffic_5min[arriving] ), airport_traffic_5min[window_start] = last_window )
+
+Departures Now =
+VAR last_window = MAX ( airport_traffic_5min[window_start] )
+RETURN
+    CALCULATE ( SUM ( airport_traffic_5min[departing] ), airport_traffic_5min[window_start] = last_window )
+
+Peak Aircraft 5 min = MAX ( airport_traffic_5min[aircraft] )
+
+Avg Aircraft 5 min = AVERAGE ( airport_traffic_5min[aircraft] )
+
+Arrival Share % =
+DIVIDE (
+    SUM ( airport_traffic_5min[arriving] ),
+    SUM ( airport_traffic_5min[arriving] ) + SUM ( airport_traffic_5min[departing] )
+)
+
+Data Freshness (min) =
+DATEDIFF ( MAX ( airport_traffic_5min[window_end] ), UTCNOW (), MINUTE )
+
+Airborne By Country = SUM ( country_traffic_5min[aircraft] )
+
+Avg Cruise Speed km/h = AVERAGE ( country_traffic_5min[avg_speed_kmh] )
