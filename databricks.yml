@@ -1,0 +1,55 @@
+bundle:
+  name: flight-streaming-lakehouse
+
+variables:
+  catalog:
+    default: flights
+  checkpoints:
+    default: abfss://lakehouse@stflightslakedev.dfs.core.windows.net/_checkpoints
+  eventhub_namespace:
+    default: evhns-flights-dev
+
+sync:
+  include:
+    - data/airports.csv
+
+artifacts:
+  wheel:
+    type: whl
+    path: .
+
+resources:
+  jobs:
+    flights_streaming:
+      name: flights-streaming-${bundle.target}
+      continuous:
+        pause_status: UNPAUSED
+      job_clusters:
+        - job_cluster_key: stream
+          new_cluster:
+            spark_version: 15.4.x-scala2.12
+            node_type_id: Standard_D4ds_v5
+            num_workers: 1
+            data_security_mode: SINGLE_USER
+            spark_env_vars:
+              FLIGHTS_CATALOG: ${var.catalog}
+              FLIGHTS_CHECKPOINTS: ${var.checkpoints}
+              EVENTHUB_NAMESPACE: ${var.eventhub_namespace}
+              EVENTHUB_NAME: flights
+              SECRET_SCOPE: flights
+              AIRPORTS_PATH: ${workspace.file_path}/data/airports.csv
+      tasks:
+        - task_key: medallion_streams
+          job_cluster_key: stream
+          spark_python_task:
+            python_file: jobs/streaming_job.py
+            parameters: ["--trigger", "1 minute"]
+          libraries:
+            - whl: ./dist/*.whl
+
+targets:
+  dev:
+    mode: development
+    default: true
+  prod:
+    mode: production
